@@ -1,11 +1,11 @@
 {
   "uuid": "1ca95f03-a0b9-4c32-9a19-70f98e61ae7f",
-  "shortName": "vntge",
-  "longName": "vntge",
+  "shortName": "stayclassic",
+  "longName": "STAYCLASSIC",
   "companyName": "DCRichards",
   "versionLabel": "1.0",
   "sdkVersion": "3",
-  "targetPlatforms": ["aplite", "basalt"],
+  "targetPlatforms": ["aplite"],
   "watchapp": {
     "watchface": true
   },
@@ -14,12 +14,6 @@
   },
   "resources": {
     "media": [
-        {
-            "menuIcon": true,
-            "type": "png",
-            "name": "IMAGE_MENU_ICON",
-            "file": "img/app_icon.png"
-        },
         {
             "type": "png",
             "name": "BT_IMG_CON",
