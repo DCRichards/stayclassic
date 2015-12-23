@@ -33,7 +33,7 @@
         {
             "characterRegex": "[:0-9a-zA-Z ]",
             "type": "font",
-            "name": "DIGITAL_72",
+            "name": "DIGITAL_60",
             "file": "fonts/Digital.ttf"
         },
         {
