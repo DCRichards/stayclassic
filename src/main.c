@@ -12,6 +12,7 @@ static Window *s_main_window;
 static TextLayer *s_time_layer;
 static TextLayer *s_date_layer;
 static TextLayer *s_pwr_label_layer;
+static TextLayer *s_branding_layer;
 static Layer *s_battery_layer;
 static Layer *s_time_bg_layer;
 static Layer *s_date_bg_layer;
@@ -53,7 +54,6 @@ static void update_date() {
 }
 
 static void update_battery() {
-    static char s_battery_buffer[16];
     BatteryChargeState charge_state = battery_state_service_peek();
     if (charge_state.is_charging) {
         // TODO: charging indicator
@@ -181,6 +181,14 @@ static void main_window_load(Window *window) {
     text_layer_set_font(s_date_layer, digital_font_28);
     text_layer_set_text_alignment(s_date_layer, GTextAlignmentCenter);
     
+    // branding layer
+    s_branding_layer = text_layer_create(GRect(8, 1, 150, 30));
+    text_layer_set_background_color(s_branding_layer, GColorClear);
+    text_layer_set_text_color(s_branding_layer, GColorWhite);
+    text_layer_set_text(s_branding_layer, "|||| STAYCLASSIC");
+    text_layer_set_font(s_branding_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
+    text_layer_set_text_alignment(s_branding_layer, GTextAlignmentLeft);
+    
     // assign layers - order is important here
     layer_add_child(window_get_root_layer(window), s_time_bg_layer);
     layer_add_child(window_get_root_layer(window), s_date_bg_layer);
@@ -190,6 +198,7 @@ static void main_window_load(Window *window) {
     layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
     layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_pwr_label_layer));
     layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_date_layer));    
+    layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_branding_layer));    
 }
 
 static void main_window_unload(Window *window) {
