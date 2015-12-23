@@ -14,6 +14,7 @@ static TextLayer *s_date_layer;
 static Layer *s_battery_layer;
 static Layer *s_time_bg_layer;
 static Layer *s_date_bg_layer;
+static Layer *s_bt_bg_layer;
 static BitmapLayer *s_bt_bitmap_layer;
 
 static GBitmap *s_bt_connected_bitmap;
@@ -41,7 +42,7 @@ static void update_time() {
 }
 
 static void update_date() {
-    time_t temp = time(NULL); 
+    time_t temp = time(NULL);
     struct tm *tick_time = localtime(&temp);
     static char buffer[] = "Sep 31";
     strftime(buffer, sizeof(buffer), "%b %d", tick_time);
@@ -78,6 +79,12 @@ static void draw_date_bg(Layer *current_layer, GContext *ctx) {
     graphics_context_set_stroke_color(ctx, GColorWhite);
     graphics_context_set_fill_color(ctx, GColorWhite);
     graphics_fill_rect(ctx, GRect(0,0,80,28), 3, GCornersAll);
+}
+
+static void draw_bt_bg(Layer *current_layer, GContext *ctx) {
+    graphics_context_set_stroke_color(ctx, GColorWhite);
+    graphics_context_set_fill_color(ctx, GColorWhite);
+    graphics_fill_rect(ctx, GRect(0,0,35,28), 3, GCornersAll);
 }
 
 static void draw_battery_bar(Layer *current_layer, GContext *ctx) {
@@ -127,10 +134,10 @@ static void main_window_load(Window *window) {
     // bluetooth layer
     s_bt_connected_bitmap = gbitmap_create_with_resource(RESOURCE_ID_BT_IMG_CON);
     s_bt_disconnected_bitmap = gbitmap_create_with_resource(RESOURCE_ID_BT_IMG_DISCON);
-    s_bt_bitmap_layer = bitmap_layer_create(GRect(15, 28, 20, 20));
+    s_bt_bitmap_layer = bitmap_layer_create(GRect(17, 28, 20, 20));
     
     // time layer
-    s_time_layer = text_layer_create(GRect(0, 48, 144, 80));
+    s_time_layer = text_layer_create(GRect(0, 52, 144, 80));
     text_layer_set_background_color(s_time_layer, GColorClear);
     text_layer_set_text_color(s_time_layer, GColorBlack);
     text_layer_set_text(s_time_layer, "00:00");
@@ -138,12 +145,16 @@ static void main_window_load(Window *window) {
     text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
     
     // time background
-    s_time_bg_layer = layer_create(GRect(8,58,140,80));
+    s_time_bg_layer = layer_create(GRect(8,62,140,80));
     layer_set_update_proc(s_time_bg_layer, draw_time_bg);
     
     // date background
     s_date_bg_layer = layer_create(GRect(58,24,140,80));
     layer_set_update_proc(s_date_bg_layer, draw_date_bg);
+    
+    // bt background
+    s_bt_bg_layer = layer_create(GRect(8,24,40,35));
+    layer_set_update_proc(s_bt_bg_layer, draw_bt_bg);
 
     // battery layer
     s_battery_layer = layer_create(GRect(20, 140, 100, 10));
@@ -160,6 +171,7 @@ static void main_window_load(Window *window) {
     // assign layers - order is important here
     layer_add_child(window_get_root_layer(window), s_time_bg_layer);
     layer_add_child(window_get_root_layer(window), s_date_bg_layer);
+    layer_add_child(window_get_root_layer(window), s_bt_bg_layer);
     layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_bt_bitmap_layer));
     layer_add_child(window_get_root_layer(window), s_battery_layer);
     layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
@@ -172,6 +184,7 @@ static void main_window_unload(Window *window) {
     layer_destroy(s_battery_layer);
     layer_destroy(s_time_bg_layer);
     layer_destroy(s_date_bg_layer);
+    layer_destroy(s_bt_bg_layer);
     
     gbitmap_destroy(s_bt_connected_bitmap);
     gbitmap_destroy(s_bt_disconnected_bitmap);
