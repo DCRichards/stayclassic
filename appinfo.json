@@ -1,0 +1,47 @@
+{
+  "uuid": "1ca95f03-a0b9-4c32-9a19-70f98e61ae7f",
+  "shortName": "vntge",
+  "longName": "vntge",
+  "companyName": "DCRichards",
+  "versionLabel": "1.0",
+  "sdkVersion": "3",
+  "targetPlatforms": ["aplite", "basalt"],
+  "watchapp": {
+    "watchface": true
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": [
+        {
+            "menuIcon": true,
+            "type": "png",
+            "name": "IMAGE_MENU_ICON",
+            "file": "img/app_icon.png"
+        },
+        {
+            "type": "png",
+            "name": "BT_IMG_CON",
+            "file": "img/bluetooth_connected.png"
+        },
+        {
+            "type": "png",
+            "name": "BT_IMG_DISCON",
+            "file": "img/bluetooth_disconnected.png"
+        },
+        {
+            "characterRegex": "[:0-9a-zA-Z ]",
+            "type": "font",
+            "name": "DIGITAL_72",
+            "file": "fonts/Digital.ttf"
+        },
+        {
+            "characterRegex": "[:0-9a-zA-Z ]",
+            "type": "font",
+            "name": "DIGITAL_28",
+            "file": "fonts/Digital.ttf"
+        }
+    ]
+  }
+}
