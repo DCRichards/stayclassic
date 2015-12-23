@@ -11,6 +11,7 @@
 static Window *s_main_window;
 static TextLayer *s_time_layer;
 static TextLayer *s_date_layer;
+static TextLayer *s_pwr_label_layer;
 static Layer *s_battery_layer;
 static Layer *s_time_bg_layer;
 static Layer *s_date_bg_layer;
@@ -21,6 +22,7 @@ static GBitmap *s_bt_connected_bitmap;
 static GBitmap *s_bt_disconnected_bitmap;
 static GFont digital_font_60;
 static GFont digital_font_28;
+static GFont digital_font_18;
 
 static const uint32_t const disconnect_vibrate_pattern[] = { 100, 100, 100 };
 static const uint32_t const connect_vibrate_pattern[] = { 100 };
@@ -91,9 +93,12 @@ static void draw_battery_bar(Layer *current_layer, GContext *ctx) {
     graphics_context_set_stroke_color(ctx, GColorWhite);
     graphics_context_set_fill_color(ctx, GColorWhite);
     graphics_context_set_stroke_width(ctx, 2);
+    // outer box
+    GRect outer_bar = GRect(0, 0, 100, 12);
+    graphics_draw_rect(ctx, outer_bar);
     if (charge_level > 0) {
-        graphics_draw_rect(ctx, GRect(0, 0, 100, 8));
-        GRect battery_level_bar = GRect(0, 0, charge_level, 8);
+        // inner fill
+        GRect battery_level_bar = GRect(0, 0, charge_level, 12);
         graphics_draw_rect(ctx, battery_level_bar);
         graphics_fill_rect(ctx, battery_level_bar, 0, GCornerNone);
     }
@@ -130,6 +135,7 @@ static void bt_handler(bool connected) {
 static void main_window_load(Window *window) {
     digital_font_60 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_DIGITAL_60));
     digital_font_28 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_DIGITAL_28));
+    digital_font_18 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_DIGITAL_18));
         
     // bluetooth layer
     s_bt_connected_bitmap = gbitmap_create_with_resource(RESOURCE_ID_BT_IMG_CON);
@@ -137,12 +143,19 @@ static void main_window_load(Window *window) {
     s_bt_bitmap_layer = bitmap_layer_create(GRect(17, 28, 20, 20));
     
     // time layer
-    s_time_layer = text_layer_create(GRect(0, 52, 144, 80));
+    s_time_layer = text_layer_create(GRect(0, 52, 130, 80));
     text_layer_set_background_color(s_time_layer, GColorClear);
     text_layer_set_text_color(s_time_layer, GColorBlack);
     text_layer_set_text(s_time_layer, "00:00");
     text_layer_set_font(s_time_layer, digital_font_60);
-    text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
+    text_layer_set_text_alignment(s_time_layer, GTextAlignmentRight);
+    
+    // pwr label layer (24h)
+    s_pwr_label_layer = text_layer_create(GRect(8, 126, 40, 40));
+    text_layer_set_background_color(s_pwr_label_layer, GColorClear);
+    text_layer_set_text_color(s_pwr_label_layer, GColorWhite);
+    text_layer_set_text(s_pwr_label_layer, "PWR");
+    text_layer_set_font(s_pwr_label_layer, digital_font_18);
     
     // time background
     s_time_bg_layer = layer_create(GRect(8,62,140,80));
@@ -157,7 +170,7 @@ static void main_window_load(Window *window) {
     layer_set_update_proc(s_bt_bg_layer, draw_bt_bg);
 
     // battery layer
-    s_battery_layer = layer_create(GRect(20, 140, 100, 10));
+    s_battery_layer = layer_create(GRect(38, 132, 100, 14));
     layer_set_update_proc(s_battery_layer, draw_battery_bar);
     
     // date layer
@@ -175,12 +188,14 @@ static void main_window_load(Window *window) {
     layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_bt_bitmap_layer));
     layer_add_child(window_get_root_layer(window), s_battery_layer);
     layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
+    layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_pwr_label_layer));
     layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_date_layer));    
 }
 
 static void main_window_unload(Window *window) {
     text_layer_destroy(s_time_layer);
     text_layer_destroy(s_date_layer);
+    text_layer_destroy(s_pwr_label_layer);
     layer_destroy(s_battery_layer);
     layer_destroy(s_time_bg_layer);
     layer_destroy(s_date_bg_layer);
@@ -192,6 +207,7 @@ static void main_window_unload(Window *window) {
     
     fonts_unload_custom_font(digital_font_60);
     fonts_unload_custom_font(digital_font_28);
+    fonts_unload_custom_font(digital_font_18);
 }
 
 static void init() {

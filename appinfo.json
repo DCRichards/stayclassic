@@ -41,6 +41,12 @@
             "type": "font",
             "name": "DIGITAL_28",
             "file": "fonts/Digital.ttf"
+        },
+        {
+            "characterRegex": "[:0-9a-zA-Z ]",
+            "type": "font",
+            "name": "DIGITAL_18",
+            "file": "fonts/Digital.ttf"
         }
     ]
   }
