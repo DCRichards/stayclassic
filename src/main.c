@@ -86,7 +86,7 @@ static void draw_date_bg(Layer *current_layer, GContext *ctx) {
 static void draw_bt_bg(Layer *current_layer, GContext *ctx) {
     graphics_context_set_stroke_color(ctx, GColorWhite);
     graphics_context_set_fill_color(ctx, GColorWhite);
-    graphics_fill_rect(ctx, GRect(0,0,35,28), 3, GCornersAll);
+    graphics_fill_rect(ctx, GRect(0,0,40,28), 3, GCornersAll);
 }
 
 static void draw_battery_bar(Layer *current_layer, GContext *ctx) {
@@ -140,7 +140,7 @@ static void main_window_load(Window *window) {
     // bluetooth layer
     s_bt_connected_bitmap = gbitmap_create_with_resource(RESOURCE_ID_BT_IMG_CON);
     s_bt_disconnected_bitmap = gbitmap_create_with_resource(RESOURCE_ID_BT_IMG_DISCON);
-    s_bt_bitmap_layer = bitmap_layer_create(GRect(17, 28, 20, 20));
+    s_bt_bitmap_layer = bitmap_layer_create(GRect(20, 28, 20, 20));
     
     // time layer
     s_time_layer = text_layer_create(GRect(0, 52, 130, 80));
@@ -166,7 +166,7 @@ static void main_window_load(Window *window) {
     layer_set_update_proc(s_date_bg_layer, draw_date_bg);
     
     // bt background
-    s_bt_bg_layer = layer_create(GRect(8,24,40,35));
+    s_bt_bg_layer = layer_create(GRect(8,24,60,60));
     layer_set_update_proc(s_bt_bg_layer, draw_bt_bg);
 
     // battery layer
