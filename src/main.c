@@ -1,13 +1,13 @@
- /* 
-  * STAYCLASSIC
-  * A modern take on a classic watchface, designed for Pebble.
-  *
-  * DCRichards
-  * December 2015
-  *
-  * Open-sourced under the MIT License
-  * https://opensource.org/licenses/MIT
-  */
+/* 
+ * STAYCLASSIC
+ * A modern take on a classic watchface, designed for Pebble.
+ *
+ * DCRichards
+ * December 2015
+ *
+ * Open-sourced under the MIT License
+ * https://opensource.org/licenses/MIT
+*/
 
 #include <pebble.h>
 #include "utilities.h"
